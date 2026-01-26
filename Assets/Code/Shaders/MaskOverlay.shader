@@ -103,25 +103,26 @@ Shader "Custom/MaskOverlay"
                 float eyeHoleAlpha = max(leftEyeAlpha, rightEyeAlpha);
                 
                 // 遮罩逻辑：
-                // - 下半部分（y <= maskHeightRatio）：始终显示遮罩（不受眼睛孔影响）
+                // - 整个屏幕都有遮罩（纯黑色）
+                // - 下半部分（y <= maskHeightRatio）：始终显示遮罩，不受眼睛孔影响
                 // - 上半部分（y > maskHeightRatio）：只在非眼睛孔区域显示遮罩
                 float maskAlpha = 1.0;
                 
                 if (uv.y <= _MaskHeightRatio)
                 {
-                    // 下半部分：始终有遮罩
-                    maskAlpha = _MaskColor.a;
+                    // 下半部分：始终有遮罩（纯黑色，完全不透明）
+                    maskAlpha = 1.0;
                 }
                 else
                 {
                     // 上半部分：只在非眼睛孔区域显示遮罩
                     // eyeHoleAlpha = 1.0 时（在孔内），maskAlpha = 0（完全透明）
-                    // eyeHoleAlpha = 0.0 时（在孔外），maskAlpha = _MaskColor.a（显示遮罩）
-                    maskAlpha = _MaskColor.a * (1.0 - eyeHoleAlpha);
+                    // eyeHoleAlpha = 0.0 时（在孔外），maskAlpha = 1.0（显示纯黑色遮罩）
+                    maskAlpha = 1.0 - eyeHoleAlpha;
                 }
                 
-                fixed4 col = _MaskColor;
-                col.a = maskAlpha;
+                // 使用纯黑色，alpha由maskAlpha控制
+                fixed4 col = fixed4(0, 0, 0, maskAlpha);
                 
                 return col;
             }
