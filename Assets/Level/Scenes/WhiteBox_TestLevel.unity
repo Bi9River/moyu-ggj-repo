@@ -38660,7 +38660,7 @@ GameObject:
   - component: {fileID: 1500028923}
   - component: {fileID: 1500028922}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: MaskStateManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38679,6 +38679,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MaskStateManager
   maskState: 1
+  materialForMaskOn: {fileID: 2100000, guid: 391cdb2838578da418abf50927242b13, type: 2}
+  materialForMaskOff: {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
 --- !u!4 &1500028923
 Transform:
   m_ObjectHideFlags: 0
