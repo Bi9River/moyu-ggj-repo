@@ -1,5 +1,4 @@
-using System;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MaskStateManager : MonoBehaviour
@@ -11,13 +10,20 @@ public class MaskStateManager : MonoBehaviour
     }
 
     public MaskState maskState = MaskState.On;
-    
-    private ArrayList _inactiveObjects;
+
+    /// <summary> 戴面具时可见的物体（Tag: SeenWithMaskOn）。假定 Awake 时均为 active，仅在此刻收集一次。 </summary>
+    private List<GameObject> _seenWithMaskOnList = new List<GameObject>();
+
+    /// <summary> 不戴面具时可见的物体（Tag: SeenWithMaskOff）。假定 Awake 时均为 active，仅在此刻收集一次。 </summary>
+    private List<GameObject> _seenWithMaskOffList = new List<GameObject>();
+
+    /// <summary> 当前被隐藏的物体，切换状态时先恢复再根据新状态隐藏另一批。 </summary>
+    private List<GameObject> _inactiveObjects = new List<GameObject>();
 
     public void Awake()
     {
-        _inactiveObjects = new ArrayList();
-        RefreshSceneByMaskStatus();
+        RefreshTaggedObjectLists();
+        ApplyCurrentMaskState();
     }
 
     public void Update()
@@ -33,10 +39,10 @@ public class MaskStateManager : MonoBehaviour
         if (maskState == state) return;
         maskState = state;
         Debug.Log($"Mask state set to {maskState}");
-        RefreshSceneByMaskStatus();
+        ApplyCurrentMaskState();
     }
 
-    public void SetMaskOn()  => SetMaskState(MaskState.On);
+    public void SetMaskOn() => SetMaskState(MaskState.On);
     public void SetMaskOff() => SetMaskState(MaskState.Off);
 
     private void ToggleMask()
@@ -44,76 +50,96 @@ public class MaskStateManager : MonoBehaviour
         SetMaskState(maskState == MaskState.On ? MaskState.Off : MaskState.On);
     }
 
-    private void RefreshSceneByMaskStatus()
+    private void ApplyCurrentMaskState()
     {
-        var objectsWithMaskOn = GameObject.FindGameObjectsWithTag("SeenWithMaskOn");
-        var objectsWithMaskOff = GameObject.FindGameObjectsWithTag("SeenWithMaskOff");
-        
-        // 先重新激活之前被禁用的对象
+        // 先恢复上一状态被隐藏的物体（假定策划初始全 active，仅在此处会 SetActive(false)）
         foreach (var obj in _inactiveObjects)
         {
-            ((GameObject)obj).SetActive(true);
-            Debug.Log($"Object {((GameObject)obj).name} is now active");
+            obj.SetActive(true);
+            Debug.Log($"Object {obj.name} is now active");
         }
-        
-        // 然后清空列表
         _inactiveObjects.Clear();
 
         if (maskState == MaskState.On)
-        {
-            foreach (var obj in objectsWithMaskOff)
-            {
-                obj.SetActive(false);
-                _inactiveObjects.Add(obj);
-                Debug.Log($"Object {obj.name} is now inactive");
-            }
-        }
+            OnSetMaskActive();
         else
-        {
-            foreach (var obj in objectsWithMaskOn)
-            {
-                obj.SetActive(false);
-                _inactiveObjects.Add(obj);
-                Debug.Log($"Object {obj.name} is now inactive");
-            }
-        }
-        
-        // 更新对象颜色
-        UpdateObjectColors();
+            OnSetMaskDisactive();
     }
-    
-    private void UpdateObjectColors()
+
+    /// <summary>
+    /// 仅在 Awake 时调用一次；假定此时所有相关物体均为 active，可被 FindGameObjectsWithTag 找到。
+    /// </summary>
+    private void RefreshTaggedObjectLists()
     {
-        var objectsWithMaskOn = GameObject.FindGameObjectsWithTag("SeenWithMaskOn");
-        var objectsWithMaskOff = GameObject.FindGameObjectsWithTag("SeenWithMaskOff");
-        
-        // 更新 SeenWithMaskOn 标签的对象颜色（仅当它们处于活动状态时）
-        foreach (var obj in objectsWithMaskOn)
+        _seenWithMaskOnList.Clear();
+        _seenWithMaskOffList.Clear();
+
+        foreach (var go in GameObject.FindGameObjectsWithTag("SeenWithMaskOn"))
+            _seenWithMaskOnList.Add(go);
+        foreach (var go in GameObject.FindGameObjectsWithTag("SeenWithMaskOff"))
+            _seenWithMaskOffList.Add(go);
+    }
+
+    /// <summary>
+    /// 戴上面具时调用。只负责调用各小函数，后续扩展在此加一行即可。
+    /// </summary>
+    private void OnSetMaskActive()
+    {
+        HideListAndTrack(_seenWithMaskOffList);
+        ApplyColorsForMaskOn();
+        // ApplyMaterialForMaskOn();
+        // SetColliderStatusForMaskOn();
+    }
+
+    /// <summary>
+    /// 摘下面具时调用。只负责调用各小函数，后续扩展在此加一行即可。
+    /// </summary>
+    private void OnSetMaskDisactive()
+    {
+        HideListAndTrack(_seenWithMaskOnList);
+        ApplyColorsForMaskOff();
+        // ApplyMaterialForMaskOff();
+        // SetColliderStatusForMaskOff();
+    }
+
+    private void HideListAndTrack(List<GameObject> list)
+    {
+        foreach (var obj in list)
         {
-            if (obj.activeSelf)
-            {
-                SetObjectColor(obj, Color.grey);
-            }
-        }
-        
-        // 更新 SeenWithMaskOff 标签的对象颜色
-        foreach (var obj in objectsWithMaskOff)
-        {
-            if (obj.activeSelf)
-            {
-                SetObjectColor(obj, Color.white);
-            }
+            obj.SetActive(false);
+            _inactiveObjects.Add(obj);
+            Debug.Log($"Object {obj.name} is now inactive");
         }
     }
-    
+
+    // ----- 颜色 -----
+
+    /// <summary> 戴面具时的颜色：戴面具可见的物体设为灰色。 </summary>
+    private void ApplyColorsForMaskOn()
+    {
+        foreach (var obj in _seenWithMaskOnList)
+        {
+            if (obj.activeSelf)
+                SetObjectColor(obj, Color.grey);
+        }
+    }
+
+    /// <summary> 不戴面具时的颜色：不戴面具可见的物体设为白色。 </summary>
+    private void ApplyColorsForMaskOff()
+    {
+        foreach (var obj in _seenWithMaskOffList)
+        {
+            if (obj.activeSelf)
+                SetObjectColor(obj, Color.white);
+        }
+    }
+
     private void SetObjectColor(GameObject obj, Color color)
     {
-        Renderer renderer = obj.GetComponent<Renderer>();
+        var renderer = obj.GetComponent<Renderer>();
         if (renderer != null)
         {
-            // 创建材质实例以避免影响其他使用相同材质的对象
-            Material material = renderer.material;
-            material.color = color;
+            renderer.material.color = color;
             Debug.Log($"Object {obj.name} color set to {color}");
         }
         else
