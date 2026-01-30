@@ -11,6 +11,10 @@ public class MaskStateManager : MonoBehaviour
 
     public MaskState maskState = MaskState.On;
 
+    [Header("材质（仅用于戴面具时可见的物体，Mask On/Off下不同材质）")]
+    public Material materialForMaskOn;
+    public Material materialForMaskOff;
+
     /// <summary> 戴面具时可见的物体（Tag: SeenWithMaskOn）。假定 Awake 时均为 active，仅在此刻收集一次。 </summary>
     private List<GameObject> _seenWithMaskOnList = new List<GameObject>();
 
@@ -85,9 +89,9 @@ public class MaskStateManager : MonoBehaviour
     /// </summary>
     private void OnSetMaskActive()
     {
-        HideListAndTrack(_seenWithMaskOffList);
-        ApplyColorsForMaskOn();
-        // ApplyMaterialForMaskOn();
+        // HideListAndTrack(_seenWithMaskOffList);
+        // ApplyColorsForMaskOn();
+        ApplyMaterialForMaskOn();
         // SetColliderStatusForMaskOn();
     }
 
@@ -96,9 +100,9 @@ public class MaskStateManager : MonoBehaviour
     /// </summary>
     private void OnSetMaskDisactive()
     {
-        HideListAndTrack(_seenWithMaskOnList);
-        ApplyColorsForMaskOff();
-        // ApplyMaterialForMaskOff();
+        // HideListAndTrack(_seenWithMaskOnList);
+        // ApplyColorsForMaskOff();
+        ApplyMaterialForMaskOff();
         // SetColliderStatusForMaskOff();
     }
 
@@ -109,6 +113,44 @@ public class MaskStateManager : MonoBehaviour
             obj.SetActive(false);
             _inactiveObjects.Add(obj);
             Debug.Log($"Object {obj.name} is now inactive");
+        }
+    }
+
+    // ----- 材质 -----
+
+    /// <summary> 戴面具时：对「戴面具可见」的物体应用 materialForMaskOn。 </summary>
+    private void ApplyMaterialForMaskOn()
+    {
+        if (materialForMaskOn == null) return;
+        foreach (var obj in _seenWithMaskOnList)
+        {
+            if (obj.activeSelf)
+                SetObjectMaterial(obj, materialForMaskOn);
+        }
+    }
+
+    /// <summary> 不戴面具时：对「戴面具可见」的物体应用 materialForMaskOff（与不戴面具可见的物体无关）。 </summary>
+    private void ApplyMaterialForMaskOff()
+    {
+        if (materialForMaskOff == null) return;
+        foreach (var obj in _seenWithMaskOnList)
+        {
+            if (obj.activeSelf)
+                SetObjectMaterial(obj, materialForMaskOff);
+        }
+    }
+
+    private void SetObjectMaterial(GameObject obj, Material mat)
+    {
+        var renderer = obj.GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            renderer.material = mat;
+            Debug.Log($"Object {obj.name} material set");
+        }
+        else
+        {
+            Debug.LogWarning($"Object {obj.name} does not have a Renderer component");
         }
     }
 
