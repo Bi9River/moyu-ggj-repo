@@ -121,7 +121,24 @@ namespace Code.Scripts
                 if (mb != null) mb.enabled = enabled;
             }
 
+            // 禁用时把玩家动作重置为静止，避免保持上一帧的移动/跑步姿态
+            if (!enabled)
+                ResetPlayerAnimatorToIdle(_currentPlayer);
+
             Debug.Log($"[GameManager] 玩家控制已{(enabled ? "开启" : "关闭")}");
+        }
+
+        /// <summary>
+        /// 将玩家 Animator 重置为静止（Hor/Vert/State=0, IsJump=false），与 ithappy Character_Movement 参数一致。
+        /// </summary>
+        static void ResetPlayerAnimatorToIdle(GameObject player)
+        {
+            var anim = player.GetComponentInChildren<Animator>();
+            if (anim == null) return;
+            anim.SetFloat("Hor", 0f);
+            anim.SetFloat("Vert", 0f);
+            anim.SetFloat("State", 0f);
+            anim.SetBool("IsJump", false);
         }
         
         /// <summary>
