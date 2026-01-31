@@ -16,10 +16,6 @@ public class MaskStateManager : MonoBehaviour
     public List<GameObject> EnabledObjectsWhenMaskOn;
     public List<GameObject> DisabledObjectsWhenMaskOn;
 
-    [Header("戴上面具应当切换材质的物体列表")]
-    
-    public List<GameObject> MaterialSwitchingObjectsWhenMaskOn;
-
     [Header("材质（仅用于戴面具时可见的物体，Mask On/Off下不同材质）")]
     public Material materialForMaskOn;
     public Material materialForMaskOff;
@@ -146,45 +142,76 @@ public class MaskStateManager : MonoBehaviour
 
     // ----- 材质 -----
 
-    /// <summary> 在首次切换材质前，记录 MaterialSwitchingObjectsWhenMaskOn 中每个物体当前的原材质。 </summary>
+    /// <summary> 在首次切换材质前，记录两个 Tag 列表中每个物体当前的原材质。 </summary>
     private void CaptureOriginalMaterials()
     {
-        if (MaterialSwitchingObjectsWhenMaskOn == null) return;
-        foreach (var obj in MaterialSwitchingObjectsWhenMaskOn)
+        if (_seenWithMaskOnList != null)
         {
-            if (obj == null) continue;
-            var renderer = obj.GetComponent<Renderer>();
-            if (renderer != null && !_originalMaterials.ContainsKey(renderer))
+            foreach (var obj in _seenWithMaskOnList)
             {
-                _originalMaterials[renderer] = renderer.sharedMaterial;
+                if (obj == null) continue;
+                var renderer = obj.GetComponent<Renderer>();
+                if (renderer != null && !_originalMaterials.ContainsKey(renderer))
+                    _originalMaterials[renderer] = renderer.sharedMaterial;
+            }
+        }
+        if (_seenWithMaskOffList != null)
+        {
+            foreach (var obj in _seenWithMaskOffList)
+            {
+                if (obj == null) continue;
+                var renderer = obj.GetComponent<Renderer>();
+                if (renderer != null && !_originalMaterials.ContainsKey(renderer))
+                    _originalMaterials[renderer] = renderer.sharedMaterial;
             }
         }
     }
 
-    /// <summary> 戴面具时：对「戴面具可见」的物体应用 materialForMaskOn；若为 null 则恢复原材质。 </summary>
+    /// <summary> 戴面具时：_seenWithMaskOnList 用 materialForMaskOn，_seenWithMaskOffList 用 materialForMaskOff；并同步碰撞体（materialForMaskOn 时关闭）。 </summary>
     private void ApplyMaterialForMaskOn()
     {
-        foreach (var obj in MaterialSwitchingObjectsWhenMaskOn)
+        ApplyMaterialAndColliderToList(_seenWithMaskOnList, materialForMaskOn, isMaskOnMaterial: true);
+        ApplyMaterialAndColliderToList(_seenWithMaskOffList, materialForMaskOff, isMaskOnMaterial: false);
+    }
+
+    /// <summary> 不戴面具时：_seenWithMaskOnList 用 materialForMaskOff，_seenWithMaskOffList 用 materialForMaskOn；并同步碰撞体（materialForMaskOn 时关闭）。 </summary>
+    private void ApplyMaterialForMaskOff()
+    {
+        ApplyMaterialAndColliderToList(_seenWithMaskOnList, materialForMaskOff, isMaskOnMaterial: false);
+        ApplyMaterialAndColliderToList(_seenWithMaskOffList, materialForMaskOn, isMaskOnMaterial: true);
+    }
+
+    /// <summary> 对列表中每个物体设置材质（或恢复原材质），并按是否为「面具 On 材质」设置碰撞体：materialForMaskOn 时碰撞体关闭。 </summary>
+    private void ApplyMaterialAndColliderToList(List<GameObject> list, Material mat, bool isMaskOnMaterial)
+    {
+        if (list == null) return;
+        foreach (var obj in list)
         {
             if (obj == null || !obj.activeSelf) continue;
-            if (materialForMaskOn == null)
-                RestoreObjectMaterial(obj);
-            else
-                SetObjectMaterial(obj, materialForMaskOn);
+            ApplyMaterialAndCollider(obj, mat, isMaskOnMaterial);
         }
     }
 
-    /// <summary> 不戴面具时：对「戴面具可见」的物体应用 materialForMaskOff；若为 null 则恢复原材质。 </summary>
-    private void ApplyMaterialForMaskOff()
+    /// <summary> 设置物体材质（或恢复原材质），并设置碰撞体：isMaskOnMaterial 为 true 时关闭碰撞体。 </summary>
+    private void ApplyMaterialAndCollider(GameObject obj, Material mat, bool isMaskOnMaterial)
     {
-        foreach (var obj in MaterialSwitchingObjectsWhenMaskOn)
+        if (mat == null)
         {
-            if (obj == null || !obj.activeSelf) continue;
-            if (materialForMaskOff == null)
-                RestoreObjectMaterial(obj);
-            else
-                SetObjectMaterial(obj, materialForMaskOff);
+            RestoreObjectMaterial(obj);
+            SetColliderEnabled(obj, true);
         }
+        else
+        {
+            SetObjectMaterial(obj, mat);
+            SetColliderEnabled(obj, !isMaskOnMaterial);
+        }
+    }
+
+    /// <summary> 设置物体上所有 Collider 的 enabled 状态。 </summary>
+    private static void SetColliderEnabled(GameObject obj, bool enabled)
+    {
+        foreach (var c in obj.GetComponents<Collider>())
+            c.enabled = enabled;
     }
 
     private void SetObjectMaterial(GameObject obj, Material mat)
