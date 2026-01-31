@@ -401,13 +401,25 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2223748150631311767, guid: f8f3f188dba4fc34bb30d459f17f7895, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a1357d1e738224a019259fa13b89ed40, type: 2}
     - target: {fileID: 3139618318933020609, guid: f8f3f188dba4fc34bb30d459f17f7895, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5822586442779583446, guid: f8f3f188dba4fc34bb30d459f17f7895, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a038cd87031ea4077a00cef2edf2107e, type: 2}
     - target: {fileID: 7008861591130396825, guid: f8f3f188dba4fc34bb30d459f17f7895, type: 3}
       propertyPath: m_Name
       value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 7488996877825102080, guid: f8f3f188dba4fc34bb30d459f17f7895, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7688376735213486811, guid: f8f3f188dba4fc34bb30d459f17f7895, type: 3}
       propertyPath: m_LocalPosition.x
