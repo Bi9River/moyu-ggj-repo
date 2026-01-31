@@ -2,13 +2,17 @@ using UnityEngine;
 
 public class SimpleInteractionSpawner : MonoBehaviour
 {
-    [Header("设置")]
+    [Header("原有设置")]
     public GameObject itemPrefab;    
     public Transform spawnPoint;     
     public float interactionRange = 3f; 
 
+    [Header("感应显示的物体列表")]
+    [Tooltip("玩家进入范围显示，离开范围隐藏")]
+    public GameObject[] objectsToToggle; 
+
     private GameObject player;       
-    private GameObject currentSpawnedObject; // 新增：用来存储当前场景中生成的物体
+    private GameObject currentSpawnedObject; 
 
     void Start()
     {
@@ -26,9 +30,38 @@ public class SimpleInteractionSpawner : MonoBehaviour
 
         float distance = Vector3.Distance(player.transform.position, transform.position);
 
-        if (distance <= interactionRange && Input.GetKeyDown(KeyCode.E))
+        // --- 核心逻辑：范围感应 ---
+        if (distance <= interactionRange)
         {
-            TriggerSwitch();
+            // 在范围内：显示物体
+            SetObjectsActiveState(true);
+
+            // 原有逻辑：按 E 生成
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                TriggerSwitch();
+            }
+        }
+        else
+        {
+            // 在范围外：隐藏物体
+            SetObjectsActiveState(false);
+        }
+    }
+
+    // 统一管理物体状态的方法
+    void SetObjectsActiveState(bool shouldBeActive)
+    {
+        if (objectsToToggle == null) return;
+
+        foreach (GameObject obj in objectsToToggle)
+        {
+            if (obj != null && obj.activeSelf != shouldBeActive)
+            {
+                obj.SetActive(shouldBeActive);
+                // 只有状态改变时才打印，避免刷屏
+                // Debug.Log($"{obj.name} 状态已更新为: {shouldBeActive}");
+            }
         }
     }
 
@@ -36,17 +69,12 @@ public class SimpleInteractionSpawner : MonoBehaviour
     {
         if (itemPrefab != null && spawnPoint != null)
         {
-            // --- 核心逻辑修改 ---
-            // 1. 检查是否已经有一个物体存在，如果有，先删掉它
             if (currentSpawnedObject != null)
             {
                 Destroy(currentSpawnedObject);
-                Debug.Log("旧物体已清理");
             }
 
-            // 2. 生成新物体，并将它赋值给变量记录下来
             currentSpawnedObject = Instantiate(itemPrefab, spawnPoint.position, Quaternion.identity);
-            
             Debug.Log("开关触发：新物体已生成！");
         }
     }

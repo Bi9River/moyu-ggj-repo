@@ -9,6 +9,7 @@ TagManager:
   - SeenWithMaskOff
   - SpawnPoint
   - TestCamera
+  - GravityBox
   layers:
   - Default
   - TransparentFX
