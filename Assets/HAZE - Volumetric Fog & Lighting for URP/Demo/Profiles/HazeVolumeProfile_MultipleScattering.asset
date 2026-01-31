@@ -108,13 +108,13 @@ MonoBehaviour:
   active: 1
   _globalDensityMultiplier:
     m_OverrideState: 1
-    m_Value: 61.74
+    m_Value: 15
   _globalDensityThreshold:
     m_OverrideState: 1
     m_Value: 1.09
   _ambientColor:
     m_OverrideState: 1
-    m_Value: {r: 0.18863475, g: 0.23391333, b: 0.254717, a: 1}
+    m_Value: {r: 0.29085794, g: 0.49309355, b: 0.5773585, a: 1}
   _mainLightContribution:
     m_OverrideState: 1
     m_Value: {r: 6.750962, g: 5.125289, b: 4.4900265, a: 1}

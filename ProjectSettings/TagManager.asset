@@ -8,6 +8,7 @@ TagManager:
   - SeenWithMaskOn
   - SeenWithMaskOff
   - SpawnPoint
+  - TestCamera
   layers:
   - Default
   - TransparentFX

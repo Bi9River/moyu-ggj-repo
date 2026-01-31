@@ -763,6 +763,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b009241a391ce14881207c6c48f1326, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
+  menuPanel: {fileID: 1317854412}
+  playerMovement: {fileID: 0}
 --- !u!114 &1317854414
 MonoBehaviour:
   m_ObjectHideFlags: 0

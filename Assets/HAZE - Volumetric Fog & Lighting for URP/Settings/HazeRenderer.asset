@@ -42,7 +42,7 @@ MonoBehaviour:
   _froxelFogComputeShader: {fileID: 7200000, guid: e9ff39ed12ea7bf469b0b8bce4265ab1, type: 3}
   _froxelFogCompositeShader: {fileID: 4800000, guid: b9e3eff296ab9a847ba7e2c588b7238f, type: 3}
   _bloomShader: {fileID: 4800000, guid: ee50c2823ceea334383936f8d0ff9666, type: 3}
-  _renderBeforeTransparents: 0
+  _renderBeforeTransparents: 1
   _froxelBufferResolution: 3
   _aspectRatioAdjustment: 0
   _froxelBufferDepth: 2
