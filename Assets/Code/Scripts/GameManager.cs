@@ -121,6 +121,10 @@ namespace Code.Scripts
             // 1. 获取 CharacterController 组件
             CharacterController cc = _currentPlayer.GetComponent<CharacterController>();
 
+            if (targetTransform == null)
+            {
+                return;
+            }
             if (cc != null)
             {
                 // 关键：必须先禁用组件

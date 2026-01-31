@@ -139,8 +139,16 @@ public class LevelSceneManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("R triggered - teleporting to last telepoint");
-            OnPlayerTeleport();
+            if (_activatedTelepoint == null)
+            {
+                Debug.Log("No active telepoint");
+            }
+            else
+            {
+                Debug.Log("R triggered - teleporting to last telepoint");
+                OnPlayerTeleport();
+            }
+            
         }
     }
 
