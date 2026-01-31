@@ -64,11 +64,15 @@ public class IthappyAnimatorBridge : MonoBehaviour
         if (_animator == null || _controller == null || _input == null) return;
 
         // 从 Starter Assets 获取：移动方向、是否跑步、是否在空中（跳跃/下落）
-        Vector2 axis = _moveField != null ? (Vector2)_moveField.GetValue(_input) : Vector2.zero;
+        Vector2 rawMove = _moveField != null ? (Vector2)_moveField.GetValue(_input) : Vector2.zero;
         bool isRun = _sprintField != null && (bool)_sprintField.GetValue(_input);
         // Grounded 是 ThirdPersonController 的 public 字段（不是属性）
         bool grounded = _groundedField == null || (bool)_groundedField.GetValue(_controller);
         bool isAir = !grounded;
+
+        // 做法1：人物始终面向移动方向，动画只播“向前走”。有输入就传向前 (0,1)，无输入传 (0,0) 做 idle
+        const float moveThreshold = 0.01f;
+        Vector2 axis = rawMove.sqrMagnitude > moveThreshold ? new Vector2(0f, 1f) : Vector2.zero;
 
         // 与 ithappy CharacterMover 一致：State 0=走 1=跑
         float state = isRun ? 1f : 0f;
