@@ -22,7 +22,6 @@ public class MaskStateManager : MonoBehaviour
 
     [Header("材质（仅用于戴面具时可见的物体，Mask On/Off下不同材质）")]
     public Material materialForMaskOn;
-
     public Material materialForMaskOff;
 
     /// <summary> 戴面具时可见的物体（Tag: SeenWithMaskOn）。假定 Awake 时均为 active，仅在此刻收集一次。 </summary>
@@ -34,9 +33,13 @@ public class MaskStateManager : MonoBehaviour
     /// <summary> 当前被隐藏的物体，切换状态时先恢复再根据新状态隐藏另一批。 </summary>
     private List<GameObject> _inactiveObjects = new List<GameObject>();
 
+    /// <summary> 参与材质切换的物体在首次切换前的原材质（Renderer -> 原材质），用于 materialForMaskOn/Off 为 null 时恢复。 </summary>
+    private Dictionary<Renderer, Material> _originalMaterials = new Dictionary<Renderer, Material>();
+
     public void Awake()
     {
         RefreshTaggedObjectLists();
+        CaptureOriginalMaterials();
         ApplyCurrentMaskState();
     }
 
@@ -143,39 +146,75 @@ public class MaskStateManager : MonoBehaviour
 
     // ----- 材质 -----
 
-    /// <summary> 戴面具时：对「戴面具可见」的物体应用 materialForMaskOn。 </summary>
+    /// <summary> 在首次切换材质前，记录 MaterialSwitchingObjectsWhenMaskOn 中每个物体当前的原材质。 </summary>
+    private void CaptureOriginalMaterials()
+    {
+        if (MaterialSwitchingObjectsWhenMaskOn == null) return;
+        foreach (var obj in MaterialSwitchingObjectsWhenMaskOn)
+        {
+            if (obj == null) continue;
+            var renderer = obj.GetComponent<Renderer>();
+            if (renderer != null && !_originalMaterials.ContainsKey(renderer))
+            {
+                _originalMaterials[renderer] = renderer.sharedMaterial;
+            }
+        }
+    }
+
+    /// <summary> 戴面具时：对「戴面具可见」的物体叠加 materialForMaskOn（原材质 + 面具材质）；若为 null 则恢复原材质。 </summary>
     private void ApplyMaterialForMaskOn()
     {
-        if (materialForMaskOn == null) return;
         foreach (var obj in MaterialSwitchingObjectsWhenMaskOn)
         {
-            if (obj.activeSelf)
-                SetObjectMaterial(obj, materialForMaskOn);
+            if (obj == null || !obj.activeSelf) continue;
+            if (materialForMaskOn == null)
+                RestoreObjectMaterial(obj);
+            else
+                SetObjectMaterialOverlay(obj, materialForMaskOn);
         }
     }
 
-    /// <summary> 不戴面具时：对「戴面具可见」的物体应用 materialForMaskOff（与不戴面具可见的物体无关）。 </summary>
+    /// <summary> 不戴面具时：对「戴面具可见」的物体叠加 materialForMaskOff（原材质 + 面具材质）；若为 null 则恢复原材质。 </summary>
     private void ApplyMaterialForMaskOff()
     {
-        if (materialForMaskOff == null) return;
         foreach (var obj in MaterialSwitchingObjectsWhenMaskOn)
         {
-            if (obj.activeSelf)
-                SetObjectMaterial(obj, materialForMaskOff);
+            if (obj == null || !obj.activeSelf) continue;
+            if (materialForMaskOff == null)
+                RestoreObjectMaterial(obj);
+            else
+                SetObjectMaterialOverlay(obj, materialForMaskOff);
         }
     }
 
-    private void SetObjectMaterial(GameObject obj, Material mat)
+    /// <summary> 在原材质之上叠加一层材质（renderer.materials = [ 原材质, 叠加材质 ]），需叠加材质使用 Alpha 混合才能看到叠加效果。 </summary>
+    private void SetObjectMaterialOverlay(GameObject obj, Material overlayMat)
     {
         var renderer = obj.GetComponent<Renderer>();
-        if (renderer != null)
-        {
-            renderer.material = mat;
-            Debug.Log($"Object {obj.name} material set");
-        }
-        else
+        if (renderer == null)
         {
             Debug.LogWarning($"Object {obj.name} does not have a Renderer component");
+            return;
+        }
+        if (!_originalMaterials.TryGetValue(renderer, out var original))
+        {
+            renderer.material = overlayMat;
+            Debug.LogWarning($"Object {obj.name} has no recorded original material, applied overlay only");
+            return;
+        }
+        renderer.materials = new Material[] { original, overlayMat };
+        Debug.Log($"Object {obj.name} material set to overlay (original + overlay)");
+    }
+
+    /// <summary> 将物体的材质恢复为记录的原材质（仅原材质，无叠加）。 </summary>
+    private void RestoreObjectMaterial(GameObject obj)
+    {
+        var renderer = obj.GetComponent<Renderer>();
+        if (renderer == null) return;
+        if (_originalMaterials.TryGetValue(renderer, out var original))
+        {
+            renderer.materials = new Material[] { original };
+            Debug.Log($"Object {obj.name} material restored to original");
         }
     }
 
