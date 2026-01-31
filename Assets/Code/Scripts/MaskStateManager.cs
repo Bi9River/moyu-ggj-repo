@@ -11,8 +11,18 @@ public class MaskStateManager : MonoBehaviour
 
     public MaskState maskState = MaskState.On;
 
+    [Header("戴上面具应当激活和关闭的物体列表")]
+    
+    public List<GameObject> EnabledObjectsWhenMaskOn;
+    public List<GameObject> DisabledObjectsWhenMaskOn;
+
+    [Header("戴上面具应当切换材质的物体列表")]
+    
+    public List<GameObject> MaterialSwitchingObjectsWhenMaskOn;
+
     [Header("材质（仅用于戴面具时可见的物体，Mask On/Off下不同材质）")]
     public Material materialForMaskOn;
+
     public Material materialForMaskOff;
 
     /// <summary> 戴面具时可见的物体（Tag: SeenWithMaskOn）。假定 Awake 时均为 active，仅在此刻收集一次。 </summary>
@@ -89,7 +99,7 @@ public class MaskStateManager : MonoBehaviour
     /// </summary>
     private void OnSetMaskActive()
     {
-        // HideListAndTrack(_seenWithMaskOffList);
+        ShowAndHideList(EnabledObjectsWhenMaskOn, DisabledObjectsWhenMaskOn);
         // ApplyColorsForMaskOn();
         ApplyMaterialForMaskOn();
         // SetColliderStatusForMaskOn();
@@ -100,10 +110,25 @@ public class MaskStateManager : MonoBehaviour
     /// </summary>
     private void OnSetMaskDisactive()
     {
-        // HideListAndTrack(_seenWithMaskOnList);
+        ShowAndHideList(DisabledObjectsWhenMaskOn, EnabledObjectsWhenMaskOn);
         // ApplyColorsForMaskOff();
         ApplyMaterialForMaskOff();
         // SetColliderStatusForMaskOff();
+    }
+
+    private void ShowAndHideList(List<GameObject> showList, List<GameObject> hideList)
+    {
+        ShowList(showList);
+        HideListAndTrack(hideList);
+    }
+
+    private void ShowList(List<GameObject> list)
+    {
+        foreach (var obj in list)
+        {
+            obj.SetActive(true);
+            Debug.Log($"Object {obj.name} is now active");
+        }
     }
 
     private void HideListAndTrack(List<GameObject> list)
@@ -122,7 +147,7 @@ public class MaskStateManager : MonoBehaviour
     private void ApplyMaterialForMaskOn()
     {
         if (materialForMaskOn == null) return;
-        foreach (var obj in _seenWithMaskOnList)
+        foreach (var obj in MaterialSwitchingObjectsWhenMaskOn)
         {
             if (obj.activeSelf)
                 SetObjectMaterial(obj, materialForMaskOn);
@@ -133,7 +158,7 @@ public class MaskStateManager : MonoBehaviour
     private void ApplyMaterialForMaskOff()
     {
         if (materialForMaskOff == null) return;
-        foreach (var obj in _seenWithMaskOnList)
+        foreach (var obj in MaterialSwitchingObjectsWhenMaskOn)
         {
             if (obj.activeSelf)
                 SetObjectMaterial(obj, materialForMaskOff);
