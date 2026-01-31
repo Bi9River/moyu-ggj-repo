@@ -876,6 +876,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Signboard 01
       objectReference: {fileID: 0}
+    - target: {fileID: 1517461648967654, guid: ecc9f28cc19cded42b23a9922e6dd59b, type: 3}
+      propertyPath: m_TagString
+      value: SeenWithMaskOn
+      objectReference: {fileID: 0}
     - target: {fileID: 4870379796078106, guid: ecc9f28cc19cded42b23a9922e6dd59b, type: 3}
       propertyPath: m_LocalScale.y
       value: 1.95
@@ -5289,6 +5293,7 @@ Transform:
   - {fileID: 1998245291}
   - {fileID: 2020686405}
   - {fileID: 583278953}
+  - {fileID: 1042018856}
   m_Father: {fileID: 1490515109}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &360126936 stripped
@@ -8495,11 +8500,15 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 942433758}
+    m_TransformParent: {fileID: 1970522020}
     m_Modifications:
     - target: {fileID: 1603895802883670, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
       propertyPath: m_Name
       value: Ground 01 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603895802883670, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
+      propertyPath: m_TagString
+      value: SeenWithMaskOff
       objectReference: {fileID: 0}
     - target: {fileID: 4210046595033450, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
       propertyPath: m_LocalScale.x
@@ -9846,6 +9855,10 @@ PrefabInstance:
     - target: {fileID: 1603895802883670, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
       propertyPath: m_Name
       value: Ground 01 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603895802883670, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4210046595033450, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
       propertyPath: m_LocalScale.x
@@ -15230,6 +15243,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4747876983687064, guid: 1e7641f00ab60c14c8742a5858f553ea, type: 3}
   m_PrefabInstance: {fileID: 936510399}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &936931493 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1603895802883670, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
+  m_PrefabInstance: {fileID: 506427170}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &937633621
 GameObject:
   m_ObjectHideFlags: 0
@@ -15316,6 +15334,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 252458281}
   - {fileID: 1933117185}
   - {fileID: 1816312814}
   - {fileID: 795998827}
@@ -15632,7 +15651,6 @@ Transform:
   - {fileID: 2140191077}
   - {fileID: 654330437}
   - {fileID: 391429791}
-  - {fileID: 252458281}
   - {fileID: 533783065}
   - {fileID: 1215342688}
   - {fileID: 1977045448}
@@ -15664,8 +15682,6 @@ Transform:
   - {fileID: 746074331}
   - {fileID: 105368880}
   - {fileID: 1071954857}
-  - {fileID: 1042018856}
-  - {fileID: 1871814732}
   - {fileID: 527643233}
   - {fileID: 1144406787}
   - {fileID: 1324888630}
@@ -16651,6 +16667,11 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4176348443623000, guid: 2a630672c4e100041bf3d8dba6f48d46, type: 3}
   m_PrefabInstance: {fileID: 14124277}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &995649003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1603895802883670, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
+  m_PrefabInstance: {fileID: 1216631690}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &995702581 stripped
 Transform:
@@ -20172,11 +20193,15 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 942433758}
+    m_TransformParent: {fileID: 357762613}
     m_Modifications:
     - target: {fileID: 1603895802883670, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
       propertyPath: m_Name
       value: Ground 01 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603895802883670, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
+      propertyPath: m_TagString
+      value: SeenWithMaskOn
       objectReference: {fileID: 0}
     - target: {fileID: 4210046595033450, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
       propertyPath: m_LocalScale.x
@@ -24478,15 +24503,19 @@ MonoBehaviour:
   - {fileID: 1703415121}
   - {fileID: 837660792}
   - {fileID: 583278954}
+  - {fileID: 995649003}
   DisabledObjectsWhenMaskOn:
   - {fileID: 560874278}
   - {fileID: 1272655730}
   - {fileID: 733090176}
   - {fileID: 1190064255}
   - {fileID: 1672053719}
-  MaterialSwitchingObjectsWhenMaskOn: []
-  materialForMaskOn: {fileID: 0}
-  materialForMaskOff: {fileID: 0}
+  - {fileID: 936931493}
+  MaterialSwitchingObjectsWhenMaskOn:
+  - {fileID: 936931493}
+  - {fileID: 995649003}
+  materialForMaskOn: {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
+  materialForMaskOff: {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!4 &1500028923
 Transform:
   m_ObjectHideFlags: 0
@@ -25384,6 +25413,10 @@ PrefabInstance:
     - target: {fileID: 1603895802883670, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
       propertyPath: m_Name
       value: Ground 01 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1603895802883670, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4210046595033450, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
       propertyPath: m_LocalScale.x
@@ -33449,6 +33482,7 @@ Transform:
   - {fileID: 300128541}
   - {fileID: 1014470373}
   - {fileID: 497123176}
+  - {fileID: 1871814732}
   m_Father: {fileID: 1490515109}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1972828753
