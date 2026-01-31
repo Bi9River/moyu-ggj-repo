@@ -99,3 +99,7 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 
 *.idea/
+
+ProjectSettings/Packages/com.unity.probuilder/Settings.json
+
+ProjectSettings/ProjectSettings.asset
