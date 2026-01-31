@@ -69,15 +69,7 @@
             {
                 "type": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "ShapeBuilder.ActiveShapeIndex",
-<<<<<<< Updated upstream
-                "value": "{\"m_Value\":4}"
-=======
-<<<<<<< HEAD
                 "value": "{\"m_Value\":6}"
-=======
-                "value": "{\"m_Value\":4}"
->>>>>>> ff0f55e4bb16dd3ad800275a5ce2a09006279f6b
->>>>>>> Stashed changes
             },
             {
                 "type": "UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
@@ -85,33 +77,21 @@
                 "value": "{\"m_Value\":{\"x\":-1.9968900680541993,\"y\":2.760953426361084,\"z\":1.5290184020996094}}"
             },
             {
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
                 "type": "UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
                 "key": "ShapeBuilder.LastSize.Cube",
                 "value": "{\"m_Value\":{\"x\":1.0,\"y\":1.0,\"z\":1.0}}"
             },
             {
-=======
->>>>>>> ff0f55e4bb16dd3ad800275a5ce2a09006279f6b
->>>>>>> Stashed changes
                 "type": "UnityEngine.Quaternion, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
                 "key": "ShapeBuilder.LastRotation.Door",
                 "value": "{\"m_Value\":{\"x\":0.0,\"y\":0.9999998807907105,\"z\":0.0,\"w\":0.0}}"
             },
             {
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
                 "type": "UnityEngine.Quaternion, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
                 "key": "ShapeBuilder.LastRotation.Cube",
                 "value": "{\"m_Value\":{\"x\":0.0,\"y\":0.0,\"z\":0.0,\"w\":1.0}}"
             },
             {
-=======
->>>>>>> ff0f55e4bb16dd3ad800275a5ce2a09006279f6b
->>>>>>> Stashed changes
                 "type": "UnityEngine.Material, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
                 "key": "mesh.userMaterial",
                 "value": "{\"m_Value\":{\"instanceID\":0}}"
