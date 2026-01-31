@@ -30,7 +30,19 @@ namespace Code.Scripts
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            EnsureAudioManagerExists();
             Debug.Log("[GameManager] 单例已创建，DontDestroyOnLoad");
+        }
+
+        void EnsureAudioManagerExists()
+        {
+            if (AudioManager.Instance == null)
+            {
+                var go = new GameObject("AudioManager");
+                go.transform.SetParent(transform);
+                go.AddComponent<AudioManager>();
+                Debug.Log("[GameManager] 已自动创建 AudioManager");
+            }
         }
 
         void OnEnable()
