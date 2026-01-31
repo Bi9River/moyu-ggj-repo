@@ -161,7 +161,7 @@ public class MaskStateManager : MonoBehaviour
         }
     }
 
-    /// <summary> 戴面具时：对「戴面具可见」的物体叠加 materialForMaskOn（原材质 + 面具材质）；若为 null 则恢复原材质。 </summary>
+    /// <summary> 戴面具时：对「戴面具可见」的物体应用 materialForMaskOn；若为 null 则恢复原材质。 </summary>
     private void ApplyMaterialForMaskOn()
     {
         foreach (var obj in MaterialSwitchingObjectsWhenMaskOn)
@@ -170,11 +170,11 @@ public class MaskStateManager : MonoBehaviour
             if (materialForMaskOn == null)
                 RestoreObjectMaterial(obj);
             else
-                SetObjectMaterialOverlay(obj, materialForMaskOn);
+                SetObjectMaterial(obj, materialForMaskOn);
         }
     }
 
-    /// <summary> 不戴面具时：对「戴面具可见」的物体叠加 materialForMaskOff（原材质 + 面具材质）；若为 null 则恢复原材质。 </summary>
+    /// <summary> 不戴面具时：对「戴面具可见」的物体应用 materialForMaskOff；若为 null 则恢复原材质。 </summary>
     private void ApplyMaterialForMaskOff()
     {
         foreach (var obj in MaterialSwitchingObjectsWhenMaskOn)
@@ -183,37 +183,32 @@ public class MaskStateManager : MonoBehaviour
             if (materialForMaskOff == null)
                 RestoreObjectMaterial(obj);
             else
-                SetObjectMaterialOverlay(obj, materialForMaskOff);
+                SetObjectMaterial(obj, materialForMaskOff);
         }
     }
 
-    /// <summary> 在原材质之上叠加一层材质（renderer.materials = [ 原材质, 叠加材质 ]），需叠加材质使用 Alpha 混合才能看到叠加效果。 </summary>
-    private void SetObjectMaterialOverlay(GameObject obj, Material overlayMat)
+    private void SetObjectMaterial(GameObject obj, Material mat)
     {
         var renderer = obj.GetComponent<Renderer>();
-        if (renderer == null)
+        if (renderer != null)
+        {
+            renderer.material = mat;
+            Debug.Log($"Object {obj.name} material set");
+        }
+        else
         {
             Debug.LogWarning($"Object {obj.name} does not have a Renderer component");
-            return;
         }
-        if (!_originalMaterials.TryGetValue(renderer, out var original))
-        {
-            renderer.material = overlayMat;
-            Debug.LogWarning($"Object {obj.name} has no recorded original material, applied overlay only");
-            return;
-        }
-        renderer.materials = new Material[] { original, overlayMat };
-        Debug.Log($"Object {obj.name} material set to overlay (original + overlay)");
     }
 
-    /// <summary> 将物体的材质恢复为记录的原材质（仅原材质，无叠加）。 </summary>
+    /// <summary> 将物体的材质恢复为记录的原材质。 </summary>
     private void RestoreObjectMaterial(GameObject obj)
     {
         var renderer = obj.GetComponent<Renderer>();
         if (renderer == null) return;
         if (_originalMaterials.TryGetValue(renderer, out var original))
         {
-            renderer.materials = new Material[] { original };
+            renderer.material = original;
             Debug.Log($"Object {obj.name} material restored to original");
         }
     }
