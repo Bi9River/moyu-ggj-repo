@@ -103,3 +103,7 @@ InitTestScene*.unity*
 ProjectSettings/Packages/com.unity.probuilder/Settings.json
 
 ProjectSettings/ProjectSettings.asset
+
+*.DS_Store
+
+/[Aa]ssets/Cube*
