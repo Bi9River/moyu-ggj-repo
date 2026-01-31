@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Code.Scripts;
 using UnityEngine;
 using Code.Scripts;
 
@@ -40,6 +41,11 @@ public class MaskStateManager : MonoBehaviour
         ApplyCurrentMaskState();
     }
 
+    public void Start()
+    {
+        UpdatePlayerOutfit();
+    }
+
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.M))
@@ -48,7 +54,17 @@ public class MaskStateManager : MonoBehaviour
             if (InputGuideManager.Instance != null && !InputGuideManager.Instance.MaskKeyUnlocked)
                 return;
             ToggleMask();
+            UpdatePlayerOutfit();
         }
+    }
+
+    public void UpdatePlayerOutfit()
+    {
+        if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null) return;
+        
+        GameObject player = GameManager.Instance.CurrentPlayer;
+        
+        player.GetComponent<PlayerOutfitManager>().SetPlayerMaskOutfit(maskState == MaskState.On);
     }
 
     public void SetMaskState(MaskState state)
