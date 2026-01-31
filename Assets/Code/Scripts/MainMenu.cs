@@ -4,9 +4,8 @@ using System.Collections;
 
 public class MainMenu : MonoBehaviour
 {
-    [Header("controlled items")]
-    public GameObject menuPanel;
-    public MonoBehaviour ThirdPersonController; 
+    [Header("controlled items")] public GameObject menuPanel;
+    public MonoBehaviour ThirdPersonController;
 
     void Start()
     {
@@ -25,10 +24,10 @@ public class MainMenu : MonoBehaviour
     public void QuitGame()
     {
         Debug.Log("Game exited");
-        #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
                     Application.Quit();
-        #endif
-            }
+#endif
+    }
 }
