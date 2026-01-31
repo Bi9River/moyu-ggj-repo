@@ -142,25 +142,21 @@ public class MaskStateManager : MonoBehaviour
 
     // ----- 材质 -----
 
-    /// <summary> 在首次切换材质前，记录两个 Tag 列表中每个物体当前的原材质。 </summary>
+    /// <summary> 在首次切换材质前，记录两个 Tag 列表中每个物体及其子物体上所有 Renderer 的原材质。 </summary>
     private void CaptureOriginalMaterials()
     {
-        if (_seenWithMaskOnList != null)
+        CaptureOriginalMaterialsFromList(_seenWithMaskOnList);
+        CaptureOriginalMaterialsFromList(_seenWithMaskOffList);
+    }
+
+    private void CaptureOriginalMaterialsFromList(List<GameObject> list)
+    {
+        if (list == null) return;
+        foreach (var obj in list)
         {
-            foreach (var obj in _seenWithMaskOnList)
+            if (obj == null) continue;
+            foreach (var renderer in obj.GetComponentsInChildren<Renderer>())
             {
-                if (obj == null) continue;
-                var renderer = obj.GetComponent<Renderer>();
-                if (renderer != null && !_originalMaterials.ContainsKey(renderer))
-                    _originalMaterials[renderer] = renderer.sharedMaterial;
-            }
-        }
-        if (_seenWithMaskOffList != null)
-        {
-            foreach (var obj in _seenWithMaskOffList)
-            {
-                if (obj == null) continue;
-                var renderer = obj.GetComponent<Renderer>();
                 if (renderer != null && !_originalMaterials.ContainsKey(renderer))
                     _originalMaterials[renderer] = renderer.sharedMaterial;
             }
@@ -207,37 +203,36 @@ public class MaskStateManager : MonoBehaviour
         }
     }
 
-    /// <summary> 设置物体上所有 Collider 的 enabled 状态。 </summary>
+    /// <summary> 设置物体及其子物体上所有 Collider 的 enabled 状态。 </summary>
     private static void SetColliderEnabled(GameObject obj, bool enabled)
     {
-        foreach (var c in obj.GetComponents<Collider>())
+        foreach (var c in obj.GetComponentsInChildren<Collider>())
             c.enabled = enabled;
     }
 
+    /// <summary> 对物体及其子物体上所有 Renderer 设置材质。 </summary>
     private void SetObjectMaterial(GameObject obj, Material mat)
     {
-        var renderer = obj.GetComponent<Renderer>();
-        if (renderer != null)
+        var renderers = obj.GetComponentsInChildren<Renderer>();
+        foreach (var r in renderers)
         {
-            renderer.material = mat;
-            Debug.Log($"Object {obj.name} material set");
+            if (r != null)
+                r.material = mat;
         }
-        else
-        {
-            Debug.LogWarning($"Object {obj.name} does not have a Renderer component");
-        }
+        if (renderers.Length > 0)
+            Debug.Log($"Object {obj.name} (and {renderers.Length} renderer(s)) material set");
     }
 
-    /// <summary> 将物体的材质恢复为记录的原材质。 </summary>
+    /// <summary> 将物体及其子物体上所有 Renderer 恢复为记录的原材质。 </summary>
     private void RestoreObjectMaterial(GameObject obj)
     {
-        var renderer = obj.GetComponent<Renderer>();
-        if (renderer == null) return;
-        if (_originalMaterials.TryGetValue(renderer, out var original))
+        foreach (var renderer in obj.GetComponentsInChildren<Renderer>())
         {
-            renderer.material = original;
-            Debug.Log($"Object {obj.name} material restored to original");
+            if (renderer == null) continue;
+            if (_originalMaterials.TryGetValue(renderer, out var original))
+                renderer.material = original;
         }
+        Debug.Log($"Object {obj.name} material(s) restored to original");
     }
 
     // ----- 颜色 -----
