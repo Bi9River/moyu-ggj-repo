@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Playables;
@@ -43,6 +44,8 @@ public class LevelSceneManager : MonoBehaviour
     [SerializeField] string playerFollowPath = "";
 
     bool _isExiting;
+
+    private Transform _activatedTelepoint;
 
     // ----- VCam 切换（供 CameraSwitchTrigger 或其它脚本调用） -----
 
@@ -129,6 +132,15 @@ public class LevelSceneManager : MonoBehaviour
         {
             Debug.Log("[LevelSceneManager] 无入口 Timeline，等待玩家后绑定 VCam Follow 并恢复跟拍");
             StartCoroutine(WaitForPlayerThenInitCamera());
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("R triggered - teleporting to last telepoint");
+            OnPlayerTeleport();
         }
     }
 
@@ -271,5 +283,17 @@ public class LevelSceneManager : MonoBehaviour
         }
         Debug.Log($"[LevelSceneManager] LoadScene: {nextSceneName}");
         SceneManager.LoadScene(nextSceneName);
+    }
+
+    public void UpdateCurrentTelepoint(Transform currentEnabledTelepoint)
+    {
+        Debug.Log("[LevelSceneManager] OnPlayerEnableTrigger");
+        _activatedTelepoint = currentEnabledTelepoint;
+    }
+
+    public void OnPlayerTeleport()
+    {
+        if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null) return;
+        GameManager.Instance.PlayerTeleport(_activatedTelepoint);
     }
 }

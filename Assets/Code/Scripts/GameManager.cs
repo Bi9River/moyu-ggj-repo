@@ -11,9 +11,8 @@ namespace Code.Scripts
     {
         public static GameManager Instance { get; private set; }
 
-        [Header("Player")]
-        [Tooltip("玩家预制体；不赋值则不会生成玩家（例如纯 UI 的开始/结束界面）")]
-        [SerializeField] GameObject playerPrefab;
+        [Header("Player")] [Tooltip("玩家预制体；不赋值则不会生成玩家（例如纯 UI 的开始/结束界面）")] [SerializeField]
+        GameObject playerPrefab;
 
         GameObject _currentPlayer;
 
@@ -28,6 +27,7 @@ namespace Code.Scripts
                 Destroy(gameObject);
                 return;
             }
+
             Instance = this;
             DontDestroyOnLoad(gameObject);
             Debug.Log("[GameManager] 单例已创建，DontDestroyOnLoad");
@@ -80,6 +80,7 @@ namespace Code.Scripts
                     Debug.Log("[GameManager] 未设置 Player Prefab，跳过生成");
                     return;
                 }
+
                 _currentPlayer = Instantiate(playerPrefab, pos, rot);
                 _currentPlayer.tag = "Player"; // 保证 EndTrigger 能识别
                 Debug.Log($"[GameManager] 已生成玩家于 SpawnPoint {spawnPoint.name} @ {pos}");
@@ -102,11 +103,40 @@ namespace Code.Scripts
                 Debug.Log("[GameManager] SetPlayerControlEnabled: 无当前玩家，忽略");
                 return;
             }
+
             foreach (var mb in _currentPlayer.GetComponents<MonoBehaviour>())
             {
                 if (mb != null) mb.enabled = enabled;
             }
+
             Debug.Log($"[GameManager] 玩家控制已{(enabled ? "开启" : "关闭")}");
+        }
+        
+        /// <summary>
+        /// 传送Player到指定位置
+        /// </summary>
+        /// <param name="transform">指定的位置</param>
+        public void PlayerTeleport(Transform targetTransform)
+        {
+            // 1. 获取 CharacterController 组件
+            CharacterController cc = _currentPlayer.GetComponent<CharacterController>();
+
+            if (cc != null)
+            {
+                // 关键：必须先禁用组件
+                cc.enabled = false; 
+        
+                // 2. 移动位置
+                _currentPlayer.transform.position = targetTransform.position;
+        
+                // 3. 重新启用组件
+                cc.enabled = true;
+            }
+            else
+            {
+                // 如果没有 CC 组件，才直接移动
+                _currentPlayer.transform.position = targetTransform.position;
+            }
         }
     }
 }
