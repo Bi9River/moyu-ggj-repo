@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using Code.Scripts;
 
 public class MaskToggle : MonoBehaviour
 {
@@ -26,6 +27,9 @@ public class MaskToggle : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
+            // 引导前屏蔽 M 键：未解锁时不响应
+            if (InputGuideManager.Instance != null && !InputGuideManager.Instance.MaskKeyUnlocked)
+                return;
             // 优雅的切换：如果目标是 1 就变 0，否则变 1
             targetWeight = (targetWeight > 0.5f) ? 0f : 1f;
         }

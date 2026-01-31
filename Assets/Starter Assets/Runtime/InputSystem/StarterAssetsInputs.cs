@@ -2,6 +2,7 @@ using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
+using Code.Scripts;
 
 namespace StarterAssets
 {
@@ -58,6 +59,9 @@ namespace StarterAssets
 
 		public void JumpInput(bool newJumpState)
 		{
+			// 引导前屏蔽跳跃：未解锁时忽略跳跃输入
+			if (newJumpState && InputGuideManager.Instance != null && !InputGuideManager.Instance.JumpUnlocked)
+				return;
 			jump = newJumpState;
 		}
 

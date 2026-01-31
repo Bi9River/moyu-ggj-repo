@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Code.Scripts;
 
 public class MaskStateManager : MonoBehaviour
 {
@@ -44,6 +45,9 @@ public class MaskStateManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
+            // 引导前屏蔽 M 键：未解锁时不响应
+            if (InputGuideManager.Instance != null && !InputGuideManager.Instance.MaskKeyUnlocked)
+                return;
             ToggleMask();
         }
     }
