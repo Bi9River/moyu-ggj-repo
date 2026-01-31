@@ -23,10 +23,14 @@ public class SimpleDoor : MonoBehaviour
     public void Open()
     {
         targetPosition = closedPosition + openOffset;
+         Debug.Log("门收到指令：开门！"); // 添加这一行
+    targetPosition = closedPosition + openOffset;
     }
 
     public void Close()
     {
         targetPosition = closedPosition;
     }
+
+
 }
