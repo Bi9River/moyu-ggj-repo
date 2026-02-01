@@ -1,7 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using Code.Scripts;
 using UnityEngine;
-using Code.Scripts;
 
 public class MaskStateManager : MonoBehaviour
 {
@@ -21,6 +21,10 @@ public class MaskStateManager : MonoBehaviour
     [Header("材质（仅用于戴面具时可见的物体，Mask On/Off下不同材质）")]
     public Material materialForMaskOn;
     public Material materialForMaskOff;
+
+    [Header("切换形象特效（玩家按 M 时播放）")]
+    [Tooltip("雾气/粒子 Prefab，将在玩家位置实例化并播放")]
+    [SerializeField] GameObject switchEffectPrefab;
 
     /// <summary> 戴面具时可见的物体（Tag: SeenWithMaskOn）。假定 Awake 时均为 active，仅在此刻收集一次。 </summary>
     private List<GameObject> _seenWithMaskOnList = new List<GameObject>();
@@ -62,6 +66,7 @@ public class MaskStateManager : MonoBehaviour
         {
             ToggleMask();
             UpdatePlayerOutfit();
+            PlaySwitchEffect();
         }
     }
     
@@ -82,6 +87,7 @@ public class MaskStateManager : MonoBehaviour
         if (maskState == state) return;
         maskState = state;
         Debug.Log($"Mask state set to {maskState}");
+        Debug.Log($"MaskOn called on: {name} instanceID:{GetInstanceID()}");
         ApplyCurrentMaskState();
     }
 
@@ -91,6 +97,32 @@ public class MaskStateManager : MonoBehaviour
     private void ToggleMask()
     {
         SetMaskState(maskState == MaskState.On ? MaskState.Off : MaskState.On);
+    }
+
+    private void PlaySwitchEffect()
+    {
+        if (switchEffectPrefab == null) return;
+        if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null) return;
+
+        Transform playerT = GameManager.Instance.CurrentPlayer.transform;
+        GameObject go = Instantiate(switchEffectPrefab, playerT.position, Quaternion.identity);
+        var ps = go.GetComponentInChildren<ParticleSystem>();
+        if (ps != null)
+        {
+            ps.Play(true);
+            float duration = ps.main.duration + 2f;
+            StartCoroutine(DestroyAfter(go, Mathf.Max(2f, duration)));
+        }
+        else
+        {
+            Destroy(go, 2f);
+        }
+    }
+
+    private static IEnumerator DestroyAfter(GameObject go, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (go != null) Destroy(go);
     }
 
     private void ApplyCurrentMaskState()
@@ -107,6 +139,8 @@ public class MaskStateManager : MonoBehaviour
             OnSetMaskActive();
         else
             OnSetMaskDisactive();
+
+        UpdatePlayerOutfit();
     }
 
     /// <summary>

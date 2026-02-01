@@ -425,11 +425,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Code::Code.Scripts.TransitionSceneController
   textMappings:
-  - key: StartingScene
+  - key: Level00
     textObject: {fileID: 8844664105307707907}
-  - key: Level 01 Detailed
+  - key: Level01
     textObject: {fileID: 2042815039}
-  - key: Level_3
+  - key: Level02
     textObject: {fileID: 288069097}
   displayDuration: 3
   defaultNextScene: StartingScene
