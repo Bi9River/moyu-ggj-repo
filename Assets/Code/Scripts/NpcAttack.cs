@@ -30,10 +30,14 @@ public class NpcAttack : MonoBehaviour
     static Image _cachedOverlay;
     static readonly int ProgressId = Shader.PropertyToID("_Progress");
     static readonly int PhaseId = Shader.PropertyToID("_Phase");
+    
+    [Header("门的状态，如果这里没有设置门则不影响其他行为")]
+    public SimpleDoor door;
 
     void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
+        if (door.IsOpen) return;
 
         var manager = FindObjectOfType<LevelSceneManager>();
         if (manager == null)
