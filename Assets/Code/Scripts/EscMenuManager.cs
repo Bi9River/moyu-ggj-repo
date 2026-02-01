@@ -37,7 +37,7 @@ namespace Code.Scripts
                 return;
             }
 
-            GameObject menuRoot = Instantiate(menuPrefab, transform);
+            GameObject menuRoot = Instantiate(menuPrefab);
             menuRoot.name = "CanvasEsc(Clone)";
             DontDestroyOnLoad(menuRoot);
 
@@ -45,6 +45,7 @@ namespace Code.Scripts
             if (panelT != null)
             {
                 _menuPanel = panelT.gameObject;
+                
                 _buttonResume = panelT.Find("ButtonResume")?.GetComponent<Button>();
                 _buttonQuit = panelT.Find("ButtonQuit")?.GetComponent<Button>();
             }
@@ -72,7 +73,7 @@ namespace Code.Scripts
         {
             if (_menuPanel == null) return;
             if (!Input.GetKeyDown(KeyCode.Escape)) return;
-
+            
             if (_menuVisible)
                 CloseMenu();
             else
@@ -83,6 +84,8 @@ namespace Code.Scripts
         public void OpenMenu()
         {
             if (_menuPanel == null) return;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             _menuPanel.SetActive(true);
             _menuVisible = true;
             if (GameManager.Instance != null)
@@ -94,6 +97,8 @@ namespace Code.Scripts
         public void CloseMenu()
         {
             if (_menuPanel == null) return;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             _menuPanel.SetActive(false);
             _menuVisible = false;
             if (GameManager.Instance != null)
