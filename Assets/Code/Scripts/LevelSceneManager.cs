@@ -19,6 +19,14 @@ public class LevelSceneManager : MonoBehaviour
     [Tooltip("玩家到达 LevelEndTrigger 后要加载的场景名；留空则只播出口 Timeline 不切场景（如结束界面）")]
     [SerializeField] string nextSceneName;
 
+    [Header("过渡场景")]
+    [Tooltip("过渡场景名；配置后先加载此场景显示文字，再加载 nextSceneName")]
+    [SerializeField] string transitionSceneName;
+    [Tooltip("过渡场景要显示的文字 Key，与 TransitionSceneController 的 Text Mappings 对应")]
+    [SerializeField] string transitionTextKey;
+    [Tooltip("关卡结束→过渡场景的淡入黑屏时长（秒）")]
+    [SerializeField] [Min(0f)] float fadeToTransitionDuration = 0.6f;
+
     [Header("Timeline (Optional)")]
     [Tooltip("进入本场景时播放的运镜/过场")]
     [SerializeField] PlayableDirector entryTimeline;
@@ -42,6 +50,8 @@ public class LevelSceneManager : MonoBehaviour
     [SerializeField] GameObject followVCam;
     [Tooltip("Player 下作为 VCam Follow 目标的子路径（留空用 Player 根）；与 playerBindingPath 可一致")]
     [SerializeField] string playerFollowPath = "";
+
+
 
     bool _isExiting;
 
@@ -289,8 +299,16 @@ public class LevelSceneManager : MonoBehaviour
             Debug.Log("[LevelSceneManager] nextSceneName 为空，不加载场景");
             return;
         }
-        Debug.Log($"[LevelSceneManager] LoadScene: {nextSceneName}");
-        SceneManager.LoadScene(nextSceneName);
+
+        if (!string.IsNullOrEmpty(transitionSceneName))
+        {
+            StartCoroutine(LoadTransitionSceneCoroutine());
+            return;
+        }
+        else
+        {
+            SceneManager.LoadScene(nextSceneName);
+        }
     }
 
     public void UpdateCurrentTelepoint(Transform currentEnabledTelepoint)
@@ -304,4 +322,18 @@ public class LevelSceneManager : MonoBehaviour
         if (GameManager.Instance == null || GameManager.Instance.CurrentPlayer == null) return;
         GameManager.Instance.PlayerTeleport(_activatedTelepoint);
     }
+
+    IEnumerator LoadTransitionSceneCoroutine()
+    {
+        TransitionSceneData.Set(nextSceneName, string.IsNullOrEmpty(transitionTextKey) ? nextSceneName : transitionTextKey);
+
+        if (TransitionFadeManager.Instance != null && fadeToTransitionDuration > 0f)
+        {
+            yield return TransitionFadeManager.Instance.FadeIn(fadeToTransitionDuration);
+        }
+
+        Debug.Log($"[LevelSceneManager] 加载过渡场景 {transitionSceneName}，TextKey={transitionTextKey ?? nextSceneName}");
+        SceneManager.LoadScene(transitionSceneName);
+    }
+
 }

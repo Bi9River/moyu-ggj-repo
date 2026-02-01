@@ -31,7 +31,19 @@ namespace Code.Scripts
             Instance = this;
             DontDestroyOnLoad(gameObject);
             EnsureAudioManagerExists();
+            EnsureTransitionFadeManagerExists();
             Debug.Log("[GameManager] 单例已创建，DontDestroyOnLoad");
+        }
+
+        void EnsureTransitionFadeManagerExists()
+        {
+            if (TransitionFadeManager.Instance == null)
+            {
+                var go = new GameObject("TransitionFadeManager");
+                go.transform.SetParent(transform);
+                go.AddComponent<TransitionFadeManager>();
+                Debug.Log("[GameManager] 已自动创建 TransitionFadeManager");
+            }
         }
 
         void EnsureAudioManagerExists()
