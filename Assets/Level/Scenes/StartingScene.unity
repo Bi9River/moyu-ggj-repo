@@ -2102,7 +2102,7 @@ PrefabInstance:
     - target: {fileID: 23046503398944330, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 5eda68e7274a14e64b974f5f97e6962e, type: 2}
+      objectReference: {fileID: 2100000, guid: 5847f8c2086144b75931e1a9605404b4, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2970,7 +2970,7 @@ PrefabInstance:
     - target: {fileID: 23013645133959712, guid: 548f0f581a0c9984796ed38e743cab1a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
+      objectReference: {fileID: 2100000, guid: 5847f8c2086144b75931e1a9605404b4, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15105,7 +15105,7 @@ PrefabInstance:
     - target: {fileID: 23046503398944330, guid: 8d0018369ea5a6f419b4923f572c1d17, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 5eda68e7274a14e64b974f5f97e6962e, type: 2}
+      objectReference: {fileID: 2100000, guid: 5847f8c2086144b75931e1a9605404b4, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28704,7 +28704,7 @@ PrefabInstance:
       objectReference: {fileID: 1243116626}
     - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
       propertyPath: nextSceneName
-      value: Level 01 Detailed
+      value: Level 01_Refine
       objectReference: {fileID: 0}
     - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
       propertyPath: transitionCanvas
@@ -28712,7 +28712,7 @@ PrefabInstance:
       objectReference: {fileID: 7274203491135968199, guid: 49079c2390bc5074f899818031b880ab, type: 3}
     - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
       propertyPath: transitionTextKey
-      value: StartingScene
+      value: Level00
       objectReference: {fileID: 0}
     - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
       propertyPath: transitionSceneName
