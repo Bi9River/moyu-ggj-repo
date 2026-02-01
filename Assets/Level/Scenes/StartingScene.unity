@@ -3214,6 +3214,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4776010027334220, guid: 52088da665ed6a64ebd6569fd64941a5, type: 3}
   m_PrefabInstance: {fileID: 264203456}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1318038939 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1517705992823579883, guid: 733919dac5a95b944b6d432570691a27, type: 3}
+  m_PrefabInstance: {fileID: 4090466170567399684}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1318038942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318038939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02dc233bbb61beb4a850fe560c0688a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::Code.Scripts.SceneTransitionManager
 --- !u!1 &1361360045
 GameObject:
   m_ObjectHideFlags: 0
@@ -15235,6 +15252,55 @@ Transform:
   m_Children:
   - {fileID: 1730831082}
   - {fileID: 1361360046}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1500655484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1500655486}
+  - component: {fileID: 1500655485}
+  m_Layer: 0
+  m_Name: SceneMusicConfig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1500655485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500655484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edbc57eb089f76e4e84c8cb5574ec72c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::Code.Scripts.SceneMusicConfig
+  musicClip: {fileID: 8300000, guid: d740e73d82109574089594ea97a990b1, type: 3}
+  loop: 1
+  volume: 1
+  fadeInTime: 1
+  stopMusicOnLoad: 0
+--- !u!4 &1500655486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500655484}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -23.86873, y: 7.71942, z: -19.72221}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1531713639
@@ -28550,7 +28616,27 @@ PrefabInstance:
       objectReference: {fileID: 1243116626}
     - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
       propertyPath: nextSceneName
-      value: WhiteBox_TestLevel _withSceneChange
+      value: Level 01 Detailed
+      objectReference: {fileID: 0}
+    - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
+      propertyPath: transitionCanvas
+      value: 
+      objectReference: {fileID: 7274203491135968199, guid: 49079c2390bc5074f899818031b880ab, type: 3}
+    - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
+      propertyPath: transitionTextKey
+      value: StartingScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
+      propertyPath: transitionSceneName
+      value: TransitionScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
+      propertyPath: changeSceneTransition
+      value: 
+      objectReference: {fileID: 7274203491135968199, guid: 49079c2390bc5074f899818031b880ab, type: 3}
+    - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
+      propertyPath: fadeToTransitionDuration
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
       propertyPath: vcamGameObjects.Array.size
@@ -28605,6 +28691,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelEndTrigger
       objectReference: {fileID: 0}
+    - target: {fileID: 8893296457330929733, guid: 9a17ba1fea817df47ac3abfbbfd4aa17, type: 3}
+      propertyPath: m_Size.x
+      value: 11.979961
+      objectReference: {fileID: 0}
+    - target: {fileID: 8893296457330929733, guid: 9a17ba1fea817df47ac3abfbbfd4aa17, type: 3}
+      propertyPath: m_Size.z
+      value: 1.3570212
+      objectReference: {fileID: 0}
+    - target: {fileID: 8893296457330929733, guid: 9a17ba1fea817df47ac3abfbbfd4aa17, type: 3}
+      propertyPath: m_Center.x
+      value: 0.48028767
+      objectReference: {fileID: 0}
+    - target: {fileID: 8893296457330929733, guid: 9a17ba1fea817df47ac3abfbbfd4aa17, type: 3}
+      propertyPath: m_Center.z
+      value: 0.1785107
+      objectReference: {fileID: 0}
     - target: {fileID: 8911392587681475079, guid: 9a17ba1fea817df47ac3abfbbfd4aa17, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.2157
@@ -28615,7 +28717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8911392587681475079, guid: 9a17ba1fea817df47ac3abfbbfd4aa17, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -28.6
+      value: -26.5
       objectReference: {fileID: 0}
     - target: {fileID: 8911392587681475079, guid: 9a17ba1fea817df47ac3abfbbfd4aa17, type: 3}
       propertyPath: m_LocalPosition.y
@@ -28713,7 +28815,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1517705992823579883, guid: 733919dac5a95b944b6d432570691a27, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1318038942}
   m_SourcePrefab: {fileID: 100100000, guid: 733919dac5a95b944b6d432570691a27, type: 3}
 --- !u!1001 &6344506387310649823
 PrefabInstance:
@@ -28810,3 +28915,4 @@ SceneRoots:
   - {fileID: 2035234303}
   - {fileID: 1568395457}
   - {fileID: 1455870673}
+  - {fileID: 1500655486}

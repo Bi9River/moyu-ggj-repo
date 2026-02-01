@@ -11,8 +11,16 @@ public class MovingPlatform : MonoBehaviour
     private int _currentIndex = 0;
     private float _waitTimer = 0f;
     private bool _isWaiting = false;
+    private Vector3 _lastPosition;
+    private readonly HashSet<Transform> _riders = new HashSet<Transform>();
 
-    void Update()
+    void Start()
+    {
+        _lastPosition = transform.position;
+        EnsureTriggerCollider();
+    }
+
+    void LateUpdate()
     {
         if (waypoints == null || waypoints.Count < 2) return;
 
@@ -24,10 +32,23 @@ public class MovingPlatform : MonoBehaviour
                 _isWaiting = false;
                 _waitTimer = 0f;
             }
+            _lastPosition = transform.position;
             return;
         }
 
         MoveTowardsTarget();
+
+        // 只做 position += delta，不调用 cc.Move(delta)，避免与 ThirdPersonController 叠加导致“按左更快/按右掉下去”
+        Vector3 delta = transform.position - _lastPosition;
+        if (delta.sqrMagnitude > 0.0001f && _riders.Count > 0)
+        {
+            foreach (Transform rider in _riders)
+            {
+                if (rider != null)
+                    rider.position += delta;
+            }
+        }
+        _lastPosition = transform.position;
     }
 
     void MoveTowardsTarget()
@@ -44,22 +65,52 @@ public class MovingPlatform : MonoBehaviour
         }
     }
 
-    // --- 关键部分：载着玩家移动 ---
-    
+    // --- Trigger 记录站上的人，不 SetParent；LateUpdate 里对 _riders 施加 position += delta（适配 CharacterController）---
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+            _riders.Add(other.transform);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+            _riders.Remove(other.transform);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        // 只有当物体从上方接触平台时，才将其设为子物体
         if (collision.gameObject.CompareTag("Player"))
-        {
-            collision.transform.SetParent(transform);
-        }
+            _riders.Add(collision.transform);
     }
 
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
-        {
-            collision.transform.SetParent(null);
-        }
+            _riders.Remove(collision.transform);
+    }
+
+    private void EnsureTriggerCollider()
+    {
+        foreach (var c in GetComponents<Collider>())
+            if (c.isTrigger) return;
+
+        var main = GetComponent<Collider>();
+        if (main == null) return;
+
+        var b = main.bounds;
+        var tr = transform;
+        var scale = tr.lossyScale;
+        var size = new Vector3(
+            scale.x > 0.001f ? b.size.x / scale.x : 1f,
+            scale.y > 0.001f ? b.size.y / scale.y : 1f,
+            scale.z > 0.001f ? b.size.z / scale.z : 1f);
+        var center = tr.InverseTransformPoint(b.center);
+
+        var box = gameObject.AddComponent<BoxCollider>();
+        box.isTrigger = true;
+        box.size = size;
+        box.center = center;
     }
 }

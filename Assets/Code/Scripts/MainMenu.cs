@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour
     {
         // 游戏启动时确保 UI 显示，玩家不动
         menuPanel.SetActive(true);
-        ThirdPersonController.enabled = false;
+        // ThirdPersonController.enabled = false;
     }
 
     public void PlayGame()
