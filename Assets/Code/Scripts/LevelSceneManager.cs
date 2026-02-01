@@ -327,6 +327,12 @@ public class LevelSceneManager : MonoBehaviour
     {
         TransitionSceneData.Set(nextSceneName, string.IsNullOrEmpty(transitionTextKey) ? nextSceneName : transitionTextKey);
 
+        // 从 AudioManager（跨场景存在）直接保存当前播放的音乐，不依赖场景内 SceneMusicConfig
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.CarryOverCurrentMusic();
+        }
+
         if (TransitionFadeManager.Instance != null && fadeToTransitionDuration > 0f)
         {
             yield return TransitionFadeManager.Instance.FadeIn(fadeToTransitionDuration);

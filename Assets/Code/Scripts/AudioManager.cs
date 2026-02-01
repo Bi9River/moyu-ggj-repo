@@ -57,12 +57,26 @@ namespace Code.Scripts
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             var config = FindObjectOfType<SceneMusicConfig>();
+
+            // 过渡场景：使用上一关卡平移到 TransitionSceneData 的音乐，保证连续播放
+            if (config == null && TransitionSceneData.CarriedOverMusicClip != null)
+            {
+                var clip = TransitionSceneData.CarriedOverMusicClip;
+                PlayMusic(clip, TransitionSceneData.CarriedOverMusicFadeInTime,
+                    TransitionSceneData.CarriedOverMusicLoop, TransitionSceneData.CarriedOverMusicVolume);
+                Debug.Log($"[AudioManager] 过渡场景 {scene.name}，延续 BGM: {clip.name}");
+                return;
+            }
+
             if (config == null) return;
 
             if (config.MusicClip != null)
             {
                 PlayMusic(config.MusicClip, config.FadeInTime, config.Loop, config.Volume);
-                Debug.Log($"[AudioManager] 场景 {scene.name} 加载，播放 BGM: {config.MusicClip.name}");
+                if (_musicSource.clip == config.MusicClip && _musicSource.isPlaying)
+                    Debug.Log($"[AudioManager] 场景 {scene.name}，相同 BGM 持续播放: {config.MusicClip.name}");
+                else
+                    Debug.Log($"[AudioManager] 场景 {scene.name} 加载，播放 BGM: {config.MusicClip.name}");
             }
             else if (config.StopMusicOnLoad)
             {
@@ -71,10 +85,20 @@ namespace Code.Scripts
             }
         }
 
-        /// <summary>播放背景音乐（带淡入，可选淡出当前曲目）</summary>
+        /// <summary>播放背景音乐（带淡入，可选淡出当前曲目）。若已是同一曲目在播，则保持连续播放。</summary>
         public void PlayMusic(AudioClip clip, float fadeInTime = 1f, bool loop = true, float volumeScale = 1f)
         {
             if (clip == null) return;
+
+            // 相同曲目已在播放：保持连续，不打断
+            if (_musicSource.clip == clip && _musicSource.isPlaying)
+            {
+                if (_musicFadeCoroutine != null)
+                    StopCoroutine(_musicFadeCoroutine);
+                _musicFadeCoroutine = null;
+                _musicSource.volume = musicVolume * masterVolume * volumeScale;
+                return;
+            }
 
             if (_musicFadeCoroutine != null)
                 StopCoroutine(_musicFadeCoroutine);
@@ -171,6 +195,17 @@ namespace Code.Scripts
         public void SetSFXVolume(float v) => sfxVolume = Mathf.Clamp01(v);
 
         public bool IsMusicPlaying => _musicSource != null && _musicSource.isPlaying;
+
+        /// <summary>将当前正在播放的音乐保存到 TransitionSceneData，供过渡场景延续使用</summary>
+        public void CarryOverCurrentMusic()
+        {
+            if (_musicSource == null || _musicSource.clip == null || !_musicSource.isPlaying) return;
+            float volScale = (musicVolume * masterVolume) > 0.01f
+                ? Mathf.Clamp01(_musicSource.volume / (musicVolume * masterVolume))
+                : 1f;
+            TransitionSceneData.SetCarriedOverMusic(_musicSource.clip, _musicSource.loop, volScale, 0.5f);
+            Debug.Log($"[AudioManager] 已保存延续音乐: {_musicSource.clip.name}");
+        }
 
         private void OnDestroy()
         {

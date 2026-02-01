@@ -32,7 +32,19 @@ namespace Code.Scripts
             DontDestroyOnLoad(gameObject);
             EnsureAudioManagerExists();
             EnsureTransitionFadeManagerExists();
+            EnsurePersistentAudioListener();
             Debug.Log("[GameManager] 单例已创建，DontDestroyOnLoad");
+        }
+
+        void EnsurePersistentAudioListener()
+        {
+            // 过渡场景等可能无 Camera/AudioListener，导致音乐听不见。在此挂一个跨场景存在的 AudioListener。
+            var existing = GetComponentInChildren<AudioListener>();
+            if (existing != null) return;
+            var go = new GameObject("PersistentAudioListener");
+            go.transform.SetParent(transform);
+            go.AddComponent<AudioListener>();
+            Debug.Log("[GameManager] 已创建跨场景 AudioListener");
         }
 
         void EnsureTransitionFadeManagerExists()
