@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3850531957246873082}
   - component: {fileID: 7625737159252570662}
+  - component: {fileID: 7373255619387290492}
+  - component: {fileID: 6504050910984512375}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45,3 +47,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Code.Scripts.GameManager
   playerPrefab: {fileID: 3152348472883139025, guid: 4d5e83a653017034fa23dc1178e16358, type: 3}
+--- !u!114 &7373255619387290492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517705992823579883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02dc233bbb61beb4a850fe560c0688a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::Code.Scripts.SceneTransitionManager
+--- !u!114 &6504050910984512375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517705992823579883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bd5b4e97744d544893b31886ce9315b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::Code.Scripts.PauseMenuManager
+  pauseCanvas: {fileID: 0}
+  resumeButton: {fileID: 0}
+  exitButton: {fileID: 0}
+  excludedSceneNames:
+  - TransitionScene
+  requireStartGameScenes:
+  - StartingScene
+  exitTargetScene: StartingScene
