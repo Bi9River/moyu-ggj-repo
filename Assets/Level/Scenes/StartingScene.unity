@@ -588,6 +588,10 @@ PrefabInstance:
       propertyPath: m_ScaleInLightmap
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 23512246703734082, guid: 52088da665ed6a64ebd6569fd64941a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
     - target: {fileID: 23812269599757072, guid: 52088da665ed6a64ebd6569fd64941a5, type: 3}
       propertyPath: m_ScaleInLightmap
       value: 0.5
@@ -953,6 +957,10 @@ PrefabInstance:
       propertyPath: m_ScaleInLightmap
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 23512246703734082, guid: 52088da665ed6a64ebd6569fd64941a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
     - target: {fileID: 23812269599757072, guid: 52088da665ed6a64ebd6569fd64941a5, type: 3}
       propertyPath: m_ScaleInLightmap
       value: 0.5
@@ -1330,7 +1338,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 91f649da09bc2a44c8d4ce8fdae3de97, type: 2}
+  - {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1489,6 +1497,10 @@ PrefabInstance:
       propertyPath: m_ScaleInLightmap
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 23512246703734082, guid: 52088da665ed6a64ebd6569fd64941a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
     - target: {fileID: 23812269599757072, guid: 52088da665ed6a64ebd6569fd64941a5, type: 3}
       propertyPath: m_ScaleInLightmap
       value: 0.5
@@ -1898,7 +1910,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 91f649da09bc2a44c8d4ce8fdae3de97, type: 2}
+  - {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2227,6 +2239,10 @@ PrefabInstance:
       propertyPath: m_ScaleInLightmap
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 23397347839622810, guid: c81daeba3e0a4874391564622f8b7794, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2870,6 +2886,10 @@ PrefabInstance:
       propertyPath: m_ScaleInLightmap
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 23962705703645276, guid: ef36f9e604233014b9bbac47cd97cb13, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2947,6 +2967,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 23013645133959712, guid: 548f0f581a0c9984796ed38e743cab1a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3004,6 +3028,10 @@ PrefabInstance:
       propertyPath: m_ScaleInLightmap
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 23512246703734082, guid: 52088da665ed6a64ebd6569fd64941a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
     - target: {fileID: 23812269599757072, guid: 52088da665ed6a64ebd6569fd64941a5, type: 3}
       propertyPath: m_ScaleInLightmap
       value: 0.5
@@ -15719,6 +15747,10 @@ PrefabInstance:
       propertyPath: m_ScaleInLightmap
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 23962705703645276, guid: ef36f9e604233014b9bbac47cd97cb13, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15780,6 +15812,10 @@ PrefabInstance:
       propertyPath: m_ScaleInLightmap
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 23397347839622810, guid: c81daeba3e0a4874391564622f8b7794, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -27536,6 +27572,10 @@ PrefabInstance:
       propertyPath: m_ScaleInLightmap
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 23512246703734082, guid: 52088da665ed6a64ebd6569fd64941a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
     - target: {fileID: 23812269599757072, guid: 52088da665ed6a64ebd6569fd64941a5, type: 3}
       propertyPath: m_ScaleInLightmap
       value: 0.5
@@ -28082,7 +28122,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 91f649da09bc2a44c8d4ce8fdae3de97, type: 2}
+  - {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -28166,6 +28206,10 @@ PrefabInstance:
       propertyPath: m_ScaleInLightmap
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 23512246703734082, guid: 52088da665ed6a64ebd6569fd64941a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
     - target: {fileID: 23812269599757072, guid: 52088da665ed6a64ebd6569fd64941a5, type: 3}
       propertyPath: m_ScaleInLightmap
       value: 0.5
@@ -28451,6 +28495,10 @@ PrefabInstance:
       propertyPath: m_ScaleInLightmap
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 23962705703645276, guid: ef36f9e604233014b9bbac47cd97cb13, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2ab5fc4a5c09905448e28e50568207e6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
