@@ -13,7 +13,8 @@ namespace Code.Scripts
         public enum GuideType
         {
             Jump,   // 解锁跳跃 (Space)
-            MaskKey // 解锁 M 键
+            MaskKey, // 解锁 M 键
+            Escape // 解锁 R 键
         }
 
         [Header("要解锁的功能")]
@@ -68,6 +69,9 @@ namespace Code.Scripts
                     break;
                 case GuideType.MaskKey:
                     manager.UnlockMaskKey();
+                    break;
+                case GuideType.Escape:
+                    manager.UnlockEscape();
                     break;
             }
 

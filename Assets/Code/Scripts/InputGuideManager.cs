@@ -13,12 +13,14 @@ namespace Code.Scripts
         [Header("初始解锁状态（引导前默认均为 false）")]
         [SerializeField] private bool jumpUnlockedAtStart;
         [SerializeField] private bool maskKeyUnlockedAtStart;
+        [SerializeField] private bool escapeUnlockedAtStart;
 
         /// <summary>跳跃(Space)是否已解锁</summary>
         public bool JumpUnlocked { get; private set; }
 
         /// <summary>M键（面具切换）是否已解锁</summary>
         public bool MaskKeyUnlocked { get; private set; }
+        public bool EscapeUnlocked { get; private set; }
 
         private void Awake()
         {
@@ -32,6 +34,7 @@ namespace Code.Scripts
 
             JumpUnlocked = jumpUnlockedAtStart;
             MaskKeyUnlocked = maskKeyUnlockedAtStart;
+            EscapeUnlocked = escapeUnlockedAtStart;
 
             Debug.Log($"[InputGuideManager] 初始化 - 跳跃:{JumpUnlocked} M键:{MaskKeyUnlocked}");
         }
@@ -56,11 +59,21 @@ namespace Code.Scripts
             }
         }
 
+        public void UnlockEscape()
+        {
+            if (!EscapeUnlocked)
+            {
+                EscapeUnlocked = true;
+                Debug.Log("[InputGuideManager] 已解锁 R 键");
+            }
+        }
+
         /// <summary>重置为未解锁（例如新游戏）</summary>
         public void ResetAll()
         {
             JumpUnlocked = jumpUnlockedAtStart;
             MaskKeyUnlocked = maskKeyUnlockedAtStart;
+            EscapeUnlocked = escapeUnlockedAtStart;
             Debug.Log("[InputGuideManager] 已重置解锁状态");
         }
 
