@@ -5,6 +5,10 @@ public class SimpleDoor : MonoBehaviour
     public Vector3 openOffset = new Vector3(0, 4, 0); // 门往哪儿开，开多远（默认向上升4米）
     public float speed = 5f; // 开门速度
 
+    // Door state
+    private bool isOpen = false;
+    public bool IsOpen => isOpen;
+
     private Vector3 closedPosition;
     private Vector3 targetPosition;
 
@@ -23,14 +27,14 @@ public class SimpleDoor : MonoBehaviour
     public void Open()
     {
         targetPosition = closedPosition + openOffset;
-         Debug.Log("门收到指令：开门！"); // 添加这一行
-    targetPosition = closedPosition + openOffset;
+        Debug.Log("门收到指令：开门！"); // 添加这一行
+        targetPosition = closedPosition + openOffset;
+        isOpen = true;
     }
 
     public void Close()
     {
         targetPosition = closedPosition;
+        isOpen = false;
     }
-
-
 }
