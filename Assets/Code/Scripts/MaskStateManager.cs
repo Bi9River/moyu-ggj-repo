@@ -34,6 +34,10 @@ public class MaskStateManager : MonoBehaviour
     /// <summary> 参与材质切换的物体在首次切换前的原材质（Renderer -> 原材质），用于 materialForMaskOn/Off 为 null 时恢复。 </summary>
     private Dictionary<Renderer, Material> _originalMaterials = new Dictionary<Renderer, Material>();
 
+    private bool _isMaskSwitchKeyEnabled = true;
+
+    private bool _isPlayerInDisableMZone = false;
+
     public void Awake()
     {
         RefreshTaggedObjectLists();
@@ -48,15 +52,21 @@ public class MaskStateManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        _isMaskSwitchKeyEnabled = true;
+        if (_isPlayerInDisableMZone || ( InputGuideManager.Instance != null && !InputGuideManager.Instance.MaskKeyUnlocked))
         {
-            // 引导前屏蔽 M 键：未解锁时不响应
-            if (InputGuideManager.Instance != null && !InputGuideManager.Instance.MaskKeyUnlocked)
-                return;
+            _isMaskSwitchKeyEnabled = false;
+        }
+        
+        if (_isMaskSwitchKeyEnabled && Input.GetKeyDown(KeyCode.M))
+        {
             ToggleMask();
             UpdatePlayerOutfit();
         }
     }
+    
+    public void PlayerEnteredDisableMZone() => _isPlayerInDisableMZone = true;
+    public void PlayerExitedDisableMZone() => _isPlayerInDisableMZone = false;
 
     public void UpdatePlayerOutfit()
     {
