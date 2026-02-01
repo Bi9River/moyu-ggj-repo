@@ -28704,7 +28704,7 @@ PrefabInstance:
       objectReference: {fileID: 1243116626}
     - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
       propertyPath: nextSceneName
-      value: Level 01 Detailed
+      value: Level 01_Refine
       objectReference: {fileID: 0}
     - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
       propertyPath: transitionCanvas
@@ -28712,7 +28712,7 @@ PrefabInstance:
       objectReference: {fileID: 7274203491135968199, guid: 49079c2390bc5074f899818031b880ab, type: 3}
     - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
       propertyPath: transitionTextKey
-      value: StartingScene
+      value: Level00
       objectReference: {fileID: 0}
     - target: {fileID: 4823401434307813636, guid: c49517c1dcbb4bb4b93c381676b5251b, type: 3}
       propertyPath: transitionSceneName
