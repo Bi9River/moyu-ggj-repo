@@ -16,6 +16,8 @@ namespace Code.Scripts
 
         GameObject _currentPlayer;
 
+        AudioListener _persistentAudioListener;
+
         /// <summary>当前跨场景存在的玩家实例；可能为 null（例如尚未进入过需要玩家的场景）。</summary>
         public GameObject CurrentPlayer => _currentPlayer;
 
@@ -38,13 +40,41 @@ namespace Code.Scripts
 
         void EnsurePersistentAudioListener()
         {
-            // 过渡场景等可能无 Camera/AudioListener，导致音乐听不见。在此挂一个跨场景存在的 AudioListener。
-            var existing = GetComponentInChildren<AudioListener>();
-            if (existing != null) return;
+            var existing = GetComponentInChildren<AudioListener>(true);
+            if (existing != null)
+            {
+                _persistentAudioListener = existing;
+                ResolveSingleAudioListener();
+                return;
+            }
             var go = new GameObject("PersistentAudioListener");
             go.transform.SetParent(transform);
-            go.AddComponent<AudioListener>();
+            _persistentAudioListener = go.AddComponent<AudioListener>();
+            ResolveSingleAudioListener();
             Debug.Log("[GameManager] 已创建跨场景 AudioListener");
+        }
+
+        /// <summary>保证场景中只有唯一一个启用的 AudioListener：若当前场景自带监听器则禁用持久监听器，否则启用持久监听器。</summary>
+        void ResolveSingleAudioListener()
+        {
+            if (_persistentAudioListener == null) return;
+            var scene = SceneManager.GetActiveScene();
+            bool sceneHasOtherListener = false;
+#if UNITY_2023_1_OR_NEWER
+            var listeners = FindObjectsByType<AudioListener>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+#else
+            var listeners = FindObjectsOfType<AudioListener>(true);
+#endif
+            foreach (var al in listeners)
+            {
+                if (al == _persistentAudioListener) continue;
+                if (al.gameObject.scene == scene && al.enabled)
+                {
+                    sceneHasOtherListener = true;
+                    break;
+                }
+            }
+            _persistentAudioListener.enabled = !sceneHasOtherListener;
         }
 
         void EnsureTransitionFadeManagerExists()
@@ -81,7 +111,7 @@ namespace Code.Scripts
 
         void Start()
         {
-            // 首次加载的游戏场景不会触发 sceneLoaded，这里补一次放置
+            ResolveSingleAudioListener();
             Debug.Log("[GameManager] Start（首次场景放置）");
             PlaceOrSpawnPlayerAtSpawnPoint();
         }
@@ -89,6 +119,7 @@ namespace Code.Scripts
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             Debug.Log($"[GameManager] 场景已加载: {scene.name}");
+            ResolveSingleAudioListener();
             PlaceOrSpawnPlayerAtSpawnPoint();
         }
 

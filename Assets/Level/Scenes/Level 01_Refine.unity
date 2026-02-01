@@ -6757,6 +6757,7 @@ MonoBehaviour:
   RedFillDuration: 0.75
   RedFadeDuration: 0.75
   vignetteOverlay: {fileID: 0}
+  door: {fileID: 0}
 --- !u!1001 &355017262
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10095,6 +10096,7 @@ MonoBehaviour:
   RedFillDuration: 0.75
   RedFadeDuration: 0.75
   vignetteOverlay: {fileID: 0}
+  door: {fileID: 0}
 --- !u!1001 &470909306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15202,6 +15204,7 @@ MonoBehaviour:
   RedFillDuration: 0.75
   RedFadeDuration: 0.75
   vignetteOverlay: {fileID: 0}
+  door: {fileID: 0}
 --- !u!4 &764104800 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4747876983687064, guid: 1e7641f00ab60c14c8742a5858f553ea, type: 3}
@@ -34670,6 +34673,7 @@ MonoBehaviour:
   RedFillDuration: 0.75
   RedFadeDuration: 0.75
   vignetteOverlay: {fileID: 0}
+  door: {fileID: 0}
 --- !u!1001 &1659914887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37970,6 +37974,7 @@ MonoBehaviour:
   RedFillDuration: 0.75
   RedFadeDuration: 0.75
   vignetteOverlay: {fileID: 0}
+  door: {fileID: 0}
 --- !u!4 &1788724820 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4201355065813502, guid: b9d89f25c6174924ab5a6027bce8d257, type: 3}
@@ -44859,6 +44864,7 @@ MonoBehaviour:
   RedFillDuration: 0.75
   RedFadeDuration: 0.75
   vignetteOverlay: {fileID: 0}
+  door: {fileID: 0}
 --- !u!1001 &2071671023
 PrefabInstance:
   m_ObjectHideFlags: 0
